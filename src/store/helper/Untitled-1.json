@@ -1,0 +1,211 @@
+{
+  "data": {
+    "product": {
+      "id": "6451fa573ec00f2031ed67cd",
+      "name": "Orta Boy Fenomen Pizza & Kutu İçecek",
+      "priceText": "₺155,00",
+      "price": 155,
+      "description": "Orta boy fenomen pizza ve kutu içecek",
+      "imageURL": "https://cdn.getiryemek.com/products/1674557351678_500x375.jpeg",
+      "fullScreenImageURL": "https://cdn.getiryemek.com/products/1674557351678_1000x750.jpeg",
+      "optionCategories": [
+        {
+          "id": "6451fa593ec00ffb09ed7480",
+          "name": "İçecek Tercihi",
+          "minCount": 1,
+          "maxCount": 1,
+          "categoryType": 0,
+          "options": [
+            {
+              "id": "6451fa593ec00f16bded7481",
+              "name": "Coca Cola (330 ml)",
+              "type": 2,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f9df2ed7482",
+              "name": "Coca Cola Light (330 ml)",
+              "type": 2,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f4078ed7483",
+              "name": "Coca Cola Şekersiz (330 ml)",
+              "type": 2,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f15dced7484",
+              "name": "Fanta (330 ml)",
+              "type": 2,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f25ffed7485",
+              "name": "Sprite (330 ml)",
+              "type": 2,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f1defed7486",
+              "name": "Fuse Tea (330 ml)",
+              "type": 2,
+              "optionsCategories": [
+                {
+                  "id": "6451fa593ec00fc16ced7b32",
+                  "name": "Fuse Tea Tercihi",
+                  "minCount": 1,
+                  "maxCount": 1,
+                  "categoryType": 0,
+                  "options": [
+                    {
+                      "id": "6451fa593ec00f49b1ed7b33",
+                      "name": "Şeftali",
+                      "type": 1
+                    },
+                    {
+                      "id": "6451fa593ec00f2edbed7b34",
+                      "name": "Limon",
+                      "type": 1
+                    },
+                    {
+                      "id": "6451fa593ec00f54d0ed7b35",
+                      "name": "Mango",
+                      "type": 1
+                    }
+                  ]
+                }
+              ],
+              "optionCategories": [
+                {
+                  "id": "6451fa593ec00fc16ced7b32",
+                  "name": "Fuse Tea Tercihi",
+                  "minCount": 1,
+                  "maxCount": 1,
+                  "categoryType": 0,
+                  "options": [
+                    {
+                      "id": "6451fa593ec00f49b1ed7b33",
+                      "name": "Şeftali",
+                      "type": 1
+                    },
+                    {
+                      "id": "6451fa593ec00f2edbed7b34",
+                      "name": "Limon",
+                      "type": 1
+                    },
+                    {
+                      "id": "6451fa593ec00f54d0ed7b35",
+                      "name": "Mango",
+                      "type": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "6451fa593ec00f86eced7487",
+          "name": "Promosyon Tercihi",
+          "minCount": 0,
+          "maxCount": 1,
+          "categoryType": 0,
+          "options": [
+            {
+              "id": "6451fa593ec00fd664ed7488",
+              "name": "Promosyon İstemiyorum",
+              "type": 3,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f3296ed7489",
+              "name": "Cips",
+              "type": 3,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺27,00",
+              "price": 27,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f75eced748a",
+              "name": "12'li Tavuk Topları",
+              "type": 2,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺27,00",
+              "price": 27,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f4140ed748b",
+              "name": "6'lı Nugget",
+              "type": 2,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺27,00",
+              "price": 27,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f59f7ed748c",
+              "name": "Çıtır Fileto",
+              "type": 2,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺42,00",
+              "price": 42,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f2baced748d",
+              "name": "8'li Soğan Halkası",
+              "type": 2,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺27,00",
+              "price": 27,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00f6fc8ed748e",
+              "name": "Mix Tabağı",
+              "type": 2,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺42,00",
+              "price": 42,
+              "optionsCategories": [],
+              "optionCategories": []
+            },
+            {
+              "id": "6451fa593ec00fd5fded748f",
+              "name": "Gurme Patates (Küçük)",
+              "type": 2,
+              "isPriceApplicable": true,
+              "priceText": "+ ₺27,00",
+              "price": 27,
+              "optionsCategories": [],
+              "optionCategories": []
+            }
+          ]
+        }
+      ],
+      "restaurant": {
+        "id": "6451fa53c6aaf37f5dc767e5",
+        "name": "Crakers Pizza, Kepez (Yeni Mah.)"
+      },
+      "oldPrice": "₺0,00"
+    }
+  },
+  "result": {
+    "code": 0,
+    "message": "SUCCESS!!!"
+  }
+}
