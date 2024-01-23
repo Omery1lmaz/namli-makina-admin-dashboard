@@ -5,13 +5,22 @@ import cartUiSlice from './shopping-cart/cartUiSlice';
 import productSlices from './productSlices';
 import waiterSlice from './waiterSlice';
 import State from 'types/AuthSliceState';
+
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import promotionSlices from './promotionSlices';
 import printerSlices from './printerSlice';
 import promosyonSlices from './promosyonSlice';
+import { combineReducers } from 'redux';
+import { createReduxHistoryContext } from 'redux-first-history';
+import { createBrowserHistory } from 'history';
+import thunk from 'redux-thunk';
 
-const store: ToolkitStore<IStore> = configureStore({
-  reducer: {
+const { createReduxHistory, routerMiddleware, routerReducer } =
+  createReduxHistoryContext({ history: createBrowserHistory() });
+
+const store: any = configureStore({
+  reducer: combineReducers({
+    router: routerReducer,
     cart: cartSlice.reducer,
     cartUi: cartUiSlice.reducer,
     auth: authenticationSlices,
@@ -20,36 +29,9 @@ const store: ToolkitStore<IStore> = configureStore({
     promotion: promotionSlices,
     promosyon: promosyonSlices,
     printer: printerSlices,
-  },
+  }),
+  middleware: [routerMiddleware, thunk],
 });
 
-interface IStore {
-  cart: { cartItems: any; totalQuantity: any; totalAmount: any };
-  cartUi: { cartIsVisible: boolean };
-  auth: State;
-  product: {
-    categories: any[];
-    category: {};
-    sellerCategories: any[];
-    isErrorP: boolean;
-    isSuccessP: boolean;
-    isLoadingP: boolean;
-    messageP: string;
-    products: any[];
-    orders: any[];
-    order: {};
-    product: {};
-    sellerProducts: any[];
-    adminDashBoard: {};
-    promotions: any[];
-  };
-  waiter: {
-    waiters: any[];
-    waiter: {};
-    isErrorW: boolean;
-    isSuccessW: boolean;
-    isLoadingW: boolean;
-  };
-}
-
 export default store;
+export const history = createReduxHistory(store);

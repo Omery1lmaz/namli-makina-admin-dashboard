@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from '@mui/material/Modal';
 import {
   deleteCategoryById,
+  deleteOfficer,
   getCatsBySeller,
+  getOfficer,
 } from '../../../store/productSlices';
 import { useNavigate, useParams } from 'react-router-dom';
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -34,7 +36,7 @@ const CategoryList = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { sellerCategories, isLoadingP } = useSelector(
+  const { officers, isLoadingP } = useSelector(
     // @ts-expect-error
     (state) => state.product
   );
@@ -43,45 +45,48 @@ const CategoryList = () => {
 
   useEffect(() => {
     // @ts-expect-error
-    dispatch(getCatsBySeller());
+    dispatch(getOfficer());
   }, []);
 
   const deleteCategory = () => {
     // @ts-expect-error
-    dispatch(deleteCategoryById({ id: selectedCategoryId }));
+    dispatch(deleteOfficer(selectedCategoryId));
   };
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Category List" />
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="grid grid-cols-2 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-2 md:px-6 2xl:px-7.5">
-          <div className="col-span-1 flex items-center">
-            <p className="font-medium">Category Name</p>
+        <div className="grid grid-cols-3 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-3 md:px-6 2xl:px-7.5">
+          <div className="col-span-1 flex items-center justify-start">
+            <p className="font-medium">Officer Name</p>
           </div>
-          <div className="col-span-1 flex items-center justify-center">
+          <div className="col-span-1 flex items-center justify-start">
+            <p className="font-medium">Gender</p>
+          </div>
+          <div className="col-span-1 flex items-center justify-start">
             <p className="font-medium">Actions</p>
           </div>
         </div>
 
         {!isLoadingP &&
-          sellerCategories?.map((category: any, key: number) => {
+          officers?.map((category: any, key: number) => {
             return (
               <div
                 key={key}
-                className="grid grid-cols-2 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-2 md:px-6 2xl:px-7.5"
+                className="grid grid-cols-3 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-3 md:px-6 2xl:px-7.5"
               >
-                <div className="col-span-1 flex items-center">
+                <div className="col-span-1 flex items-center justify-start">
                   <p className="max-w-[350px] truncate text-sm text-black dark:text-white sm:max-w-[100px]">
                     {category.name}
                   </p>
                 </div>
-                <div className="col-span-1 flex items-center justify-center">
+                <div className="col-span-1 flex items-center justify-start">
+                  <p className="max-w-[350px] truncate text-sm text-black dark:text-white sm:max-w-[100px]">
+                    {category.gender ? <span>Erkek</span> : <span>Kadın</span>}
+                  </p>
+                </div>
+                <div className="col-span-1 flex items-center justify-start">
                   <div className="flex items-center justify-center gap-2">
-                    <PencilSquareIcon
-                      className="cursor-pointer hover:scale-110"
-                      width={16}
-                      onClick={() => navigate(`/edit-category/${category._id}`)}
-                    />
                     <TrashIcon
                       className="cursor-pointer hover:scale-110"
                       width={16}
@@ -128,7 +133,7 @@ const CategoryList = () => {
               </div>
             );
           })}
-        {sellerCategories?.length == 0 && !isLoadingP && (
+        {officers?.length == 0 && !isLoadingP && (
           <div className="flex h-[150px]  w-full items-center justify-center xl:p-5">
             <h2 className="text-center text-lg font-semibold text-black dark:text-white">
               No Category

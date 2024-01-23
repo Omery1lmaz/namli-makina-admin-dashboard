@@ -7,6 +7,7 @@ import {
   errorNotification,
   successNotification,
 } from '../services/notificationHelper';
+import { push } from 'redux-first-history';
 
 const userString = localStorage.getItem('user');
 const user = userString !== null ? JSON.parse(userString) : null;
@@ -26,7 +27,32 @@ export const sellerWorkingStatus = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+export const createOffier = createAsyncThunk(
+  'createOfficer',
+  async ({ formData }: any, thunkAPI) => {
+    try {
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      const response = await authService.createOfficer({ formData });
+      successNotification('Officer başarıyla eklendi');
+      thunkAPI.dispatch(push('/'));
+      // Navigate to a specific route after successful creation
+
+      return response;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      errorNotification('Officer oluşturulurken hata oluştu');
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -62,7 +88,6 @@ export const loginUser = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -140,7 +165,6 @@ export const updateSellerImage = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -160,7 +184,6 @@ export const RegisterUser = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
@@ -203,7 +226,7 @@ export const updatePassword = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
+      cation(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -315,6 +338,18 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createOffier.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(createOffier.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.user = null;
+      })
+      .addCase(createOffier.pending, (state, action) => {
+        state.isLoading = true;
+      })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoading = false;

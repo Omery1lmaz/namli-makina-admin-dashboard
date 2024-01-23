@@ -6,11 +6,13 @@ import './index.css';
 import './satoshi.css';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { HistoryRouter as RouterH } from 'redux-first-history/rr6';
+import { history } from './store/store';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
-    <Router>
+    <RouterH history={history}>
       <App />
-    </Router>
+    </RouterH>
   </Provider>
 );

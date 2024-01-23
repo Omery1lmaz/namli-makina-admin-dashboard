@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
 
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
@@ -24,7 +23,6 @@ import CategoryCostList from './pages/Admin/CostList/category/CategoryCostList';
 import ProductCostList from './pages/Admin/CostList/product/ProductCostList';
 import Buttons from './pages/UiElements/Buttons';
 import { ToastContainer } from 'react-toastify';
-import { socket } from './services/socketHelper';
 import { successNotification } from './services/notificationHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import VariationList from './pages/Admin/VariationPages/VariationList';
@@ -41,6 +39,8 @@ import NewOptionList from './pages/Admin/VariationPages/NewOptionPages/Variation
 import NewAddOption from './pages/Admin/VariationPages/NewOptionPages/AddVariation';
 import EditOption from './pages/Admin/VariationPages/NewOptionPages/EditOption';
 import NewAddProduct from './pages/Admin/ProductPages/NewProductPages/AddProduct';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
@@ -49,14 +49,6 @@ function App() {
     // @ts-expect-error
     (state) => state.auth
   );
-
-  useEffect(() => {
-    socket.emit('joinRoom', user?._id);
-    socket.on('siparisBildirimi', (order) => {
-      successNotification('Yeni sipariş id: ' + order._id);
-      dispatch(addOrder(order));
-    });
-  }, [socket]);
 
   if (preloader) {
     setTimeout(() => {
@@ -85,7 +77,6 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-
       <Routes>
         <Route path="/" element={<GuardedRoute component={ECommerce} />} />
         <Route path="/buttons" element={<GuardedRoute component={Buttons} />} />
@@ -170,11 +161,11 @@ function App() {
         />
         <Route path="/order-list" element={<Navigate to={'/order-list/1'} />} />
         <Route
-          path="/product-list/:id"
+          path="/user-list/:id"
           element={<GuardedRoute component={ProductList} />}
         />
         <Route
-          path="/category-list"
+          path="/officer-list"
           element={<GuardedRoute component={CategoryList} />}
         />
         <Route
@@ -182,10 +173,7 @@ function App() {
           element={<GuardedRoute component={WaiterList} />}
         />
 
-        <Route
-          path="/product-list"
-          element={<Navigate to={'/product-list/1'} />}
-        />
+        <Route path="/user-list" element={<Navigate to={'/user-list/1'} />} />
         <Route
           path="/edit-promotion/:id"
           element={<GuardedRoute component={EditOption} />}

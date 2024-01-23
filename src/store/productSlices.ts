@@ -73,7 +73,6 @@ export const getAdminDashBoardInf = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -95,7 +94,6 @@ export const updateOrderStatus = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -142,7 +140,6 @@ export const createOrder = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -157,7 +154,6 @@ export const createTip = createAsyncThunk(
         id,
         seller,
       });
-      errorNotification('Tip başarıyla oluşturuldu');
       return {
         response,
         status: '200',
@@ -169,7 +165,6 @@ export const createTip = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -187,7 +182,6 @@ export const getOrderBySeller = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -206,7 +200,6 @@ export const deleteOrder = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -225,7 +218,6 @@ export const getOrderById = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -243,7 +235,6 @@ export const getCategoryById = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -262,7 +253,6 @@ export const getProduct = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -285,7 +275,6 @@ export const updateProductsImage = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -305,7 +294,6 @@ export const deleteCategoryById = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -326,7 +314,6 @@ export const deleteProductById = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -337,6 +324,53 @@ export const getCatsBySeller = createAsyncThunk(
   async (thunkAPI: any) => {
     try {
       const res = await productService.getCatsHelper();
+      return res;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getUsers = createAsyncThunk('/getUsers', async (thunkAPI: any) => {
+  try {
+    const res = await productService.getUsersHelper();
+    return res;
+  } catch (error: any) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+export const getOfficer = createAsyncThunk(
+  '/getOfficer',
+  async (thunkAPI: any) => {
+    try {
+      const res = await productService.getOfficerHelper();
+      return res;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+export const deleteOfficer = createAsyncThunk(
+  '/deleteOfficer',
+  async (id: string, thunkAPI: any) => {
+    try {
+      const res = await productService.deleteOfficerHelper(id);
       return res;
     } catch (error: any) {
       const message =
@@ -400,7 +434,6 @@ export const addCategories = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -420,7 +453,6 @@ export const updateCategory = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -440,7 +472,6 @@ export const getProductsById = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -482,7 +513,6 @@ export const getProductsBySellerLimit = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -505,7 +535,6 @@ export const getOrderBySellerWithLimit = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -525,7 +554,6 @@ export const getOrderRecords = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -545,7 +573,6 @@ export const getInvoicesRecords = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -564,7 +591,6 @@ export const addProduct = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -582,7 +608,6 @@ export const newAddProduct = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -625,7 +650,6 @@ export const updateProductP = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -649,13 +673,16 @@ interface InitialState {
   product: any;
   orderRecords: any;
   sellerProducts: any[];
+  users: any[];
   adminDashBoard: any;
+  officers: any[];
 }
 
 const initialState: InitialState = {
   categories: [],
   category: {},
   sellerCategories: [],
+  users: [],
   isErrorP: false,
   isSuccessP: false,
   isLoadingP: false,
@@ -667,6 +694,7 @@ const initialState: InitialState = {
   orderRecords: [],
   invoices: [],
   readyOrders: [],
+  officers: [],
   order: {},
   product: {},
   sellerProducts: [],
@@ -746,6 +774,47 @@ const productSlice = createSlice({
       .addCase(updateProductsImage.pending, (state, action) => {
         state.isLoadingP = true;
       })
+      .addCase(deleteOfficer.fulfilled, (state, action) => {
+        state.isLoadingP = false;
+        state.officers = action.payload.item;
+      })
+      .addCase(deleteOfficer.rejected, (state, action) => {
+        state.isErrorP = true;
+        state.isSuccessP = false;
+        state.isLoadingP = false;
+        state.messageP = action.payload as any;
+      })
+      .addCase(deleteOfficer.pending, (state, action) => {
+        state.isLoadingP = true;
+      })
+
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.isLoadingP = false;
+        state.users = action.payload.item;
+      })
+      .addCase(getUsers.rejected, (state, action) => {
+        state.isErrorP = true;
+        state.isSuccessP = false;
+        state.isLoadingP = false;
+        state.messageP = action.payload as any;
+      })
+      .addCase(getUsers.pending, (state, action) => {
+        state.isLoadingP = true;
+      })
+      .addCase(getOfficer.fulfilled, (state, action) => {
+        state.isLoadingP = false;
+        state.officers = action.payload.item;
+      })
+      .addCase(getOfficer.rejected, (state, action) => {
+        state.isErrorP = true;
+        state.isSuccessP = false;
+        state.isLoadingP = false;
+        state.messageP = action.payload as any;
+      })
+      .addCase(getOfficer.pending, (state, action) => {
+        state.isLoadingP = true;
+      })
+
       .addCase(getInvoicesRecords.fulfilled, (state, action) => {
         state.isLoadingP = false;
         state.invoices = action.payload.invoices;

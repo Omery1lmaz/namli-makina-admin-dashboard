@@ -19,8 +19,32 @@ const Header = (props: {
   const dispatch = useDispatch();
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
-      <div className="flex flex-grow items-center justify-between  py-4 px-4 shadow-2 md:px-6 2xl:px-11">
-        <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
+      <div className="customLogo absolute   ">
+        <Link className="block flex-shrink-0 lg:hidden" to="/">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_233_423)">
+              <path
+                d="M48 43.4691V48H43.4691L24 28.5309L4.53094 48H0V43.4691L19.4691 24L0 4.53094V0H4.53094L24 19.4691L43.4691 0H48V4.53094L28.5309 24L48 43.4691ZM28.7597 0L24 4.75969L19.2403 0H11.0531L23.9991 12.9459L36.9459 0H28.7588H28.7597ZM36.9469 48L24.0009 35.0541L11.055 48H19.2422L24.0019 43.2403L28.7616 48H36.9487H36.9469ZM48.0009 28.7597L43.2412 24L48.0009 19.2403V11.0531L35.055 23.9991L48.0009 36.945V28.7578V28.7597ZM0 36.9459L12.9459 24L0 11.0541V19.2413L4.75969 24.0009L0 28.7597V36.9469V36.9459Z"
+                fill="white"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_233_423">
+                <rect width="48" height="48" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </Link>
+      </div>
+
+      <div className="flex flex-grow items-center justify-between  px-4 py-4 shadow-2 md:px-6 2xl:px-11">
+        <div className="flex w-full items-center justify-between gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
           <button
             aria-controls="sidebar"
@@ -33,17 +57,17 @@ const Header = (props: {
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="du-block absolute right-0 h-full w-full">
                 <span
-                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
+                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
                     !props.sidebarOpen && '!w-full delay-300'
                   }`}
                 ></span>
                 <span
-                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
+                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
                     !props.sidebarOpen && 'delay-400 !w-full'
                   }`}
                 ></span>
                 <span
-                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
+                  className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
                     !props.sidebarOpen && '!w-full delay-500'
                   }`}
                 ></span>
@@ -63,49 +87,6 @@ const Header = (props: {
             </span>
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
-
-          <Link className="block flex-shrink-0 lg:hidden" to="/">
-            <img src={Logo} alt="Logo" />
-          </Link>
-        </div>
-
-        <div className="ml-auto flex items-center !justify-end gap-3 2xsm:gap-7">
-          <ul className="flex items-center gap-2 2xsm:gap-4">
-            <div>{JSON.stringify(user?.isWorking)}</div>
-            <div className="col-span-1 flex items-center">
-              <div className="flex items-center justify-center gap-2">
-                <ul>
-                  <li className="list-none ">
-                    <label
-                      className={`relative m-0 block h-7.5 w-14 rounded-full ${
-                        user?.isWorking ? 'bg-meta-3' : 'bg-meta-1'
-                      }`}
-                      onClick={() => {}}
-                    >
-                      <input
-                        type="checkbox"
-                        onChange={() => {
-                          dispatch(sellerWorkingStatus(user?.isWorking));
-                        }}
-                        className="dur absolute top-0 z-50 m-0 h-full w-full cursor-pointer opacity-0"
-                      />
-                      <span
-                        className={`absolute top-1/2 left-[3px] flex h-6 w-6 -translate-y-1/2 translate-x-0 items-center justify-center rounded-full bg-white shadow-switcher duration-75 ease-linear ${
-                          user?.isWorking && '!right-[3px] !translate-x-full'
-                        }`}
-                      ></span>
-                    </label>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* <!-- Dark Mode Toggler --> */}
-          </ul>
-
-          {/* <!-- User Area --> */}
-          <DropdownUser />
-          {/* <!-- User Area --> */}
         </div>
       </div>
     </header>

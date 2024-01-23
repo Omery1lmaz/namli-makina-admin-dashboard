@@ -9,16 +9,13 @@ import {
   addProduct,
   getCatsBySeller,
   getProductsBySellerLimit,
+  getUsers,
   newAddProduct,
 } from '../../../../store/productSlices';
 import { getOptionsBySeller } from '../../../../store/promotionSlices';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { createOffier } from '../../../../store/authenticationSlices';
 
-type options = {
-  name: string;
-  price: number;
-  priceNoDiscount: number;
-};
 type OptionCategory = {
   name: string;
   minCount: number;
@@ -29,11 +26,14 @@ type OptionCategory = {
 const NewAddProduct = () => {
   const dispatch = useDispatch();
   // @ts-expect-error
-  const { sellerCategories, isLoadingP, sellerProducts } = useSelector(
-    (state: any) => {
-      return state.product;
-    }
-  );
+  const { sellerCategories, sellerProducts } = useSelector((state: any) => {
+    return state.product;
+  });
+  const { isLoading } = useSelector((state: any) => {
+    return state.auth;
+  });
+
+  const formData = new FormData();
 
   const { options, promotions } = useSelector((state: any) => state.promotion);
   const [inputList, setinputList] = useState<OptionCategory[]>([]);
@@ -119,7 +119,6 @@ const NewAddProduct = () => {
   });
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const formData = new FormData();
   const appendDataToFormData = (data) => {
     const formData = new FormData();
     formData.append('test', data);
@@ -135,6 +134,15 @@ const NewAddProduct = () => {
     appendDataToFormData(selectedFile);
   };
 
+  const [officer, setOfficer] = useState({
+    name: '',
+    gender: false,
+  });
+
+  useEffect(() => {
+    console.log(isLoading, 'is loading');
+  }, [isLoading]);
+
   useEffect(() => {
     if (selectedFile) {
       appendDataToFormData(selectedFile);
@@ -142,43 +150,34 @@ const NewAddProduct = () => {
   }, [selectedFile]);
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="New Add Product" />
+      <Breadcrumb pageName="New Add Officer" />
       <Formik
         initialValues={{
           Name: '',
-          Description: '',
-          Price: 1,
-          Image: '',
-          Category: '',
-          Promotions: '',
+          gender: false,
         }}
         onSubmit={(values, { resetForm }) => {
-          const { Name, Description, Price, Category } = values;
-          const formData1 = new FormData();
-          formData1.append('Image', image as any);
+          const { Name, gender } = values;
+          console.log(gender, 'gender');
+          const genderString = gender ? true : false;
 
-          formData.append('Image', image);
-          formData.append('name', Name);
-          formData.append('description', Description);
-          formData.append('price', Price);
-          formData.append('Category', Category);
-          formData.append('optionCategories', inputList);
-          const product = {
-            name: Name,
-            description: Description,
-            price: Price,
-            Category,
-            optionCategories: inputList,
-          };
+          formData.append('image', image as any);
+          formData.append(
+            'officer',
+            JSON.stringify({
+              name: Name,
+              gender: genderString,
+            })
+          );
           // @ts-expect-error
-          dispatch(newAddProduct({ formData }));
+          dispatch(createOffier({ formData }));
         }}
       >
         {(formik) => (
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+            <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Add Product Form
+                Add Officer Form
               </h3>
             </div>
             <form onSubmit={formik.handleSubmit}>
@@ -186,7 +185,7 @@ const NewAddProduct = () => {
                 <div className="mb-4.5 flex flex-col gap-6 ">
                   <div className="w-full ">
                     <label className="mb-2.5 block text-black dark:text-white">
-                      Product Name
+                      Officer Name
                     </label>
                     <input
                       type="text"
@@ -196,82 +195,45 @@ const NewAddProduct = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       placeholder="Enter your first name"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
                     {formik.errors.Name && formik.touched.Name ? (
                       <div className="error">* {formik.errors.Name}</div>
                     ) : null}
                   </div>
-                  <div className="w-full">
-                    <label className="mb-2.5 block text-black dark:text-white">
-                      Price
-                    </label>
-                    <input
-                      type="number"
-                      name="Price"
-                      value={formik.values.Price}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder="Enter your last name"
-                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    />
-                    {formik.errors.Price && formik.touched.Price ? (
-                      <div className="error">* {formik.errors.Price}</div>
-                    ) : null}
-                  </div>
-                  <div className="w-full">
-                    <label className="mb-2.5 block text-black dark:text-white">
-                      Category
-                    </label>
-                    <Multiselect
-                      id="Category"
-                      name="Category"
-                      options={
-                        Array.isArray(sellerCategories) &&
-                        sellerCategories.length >= 1
-                          ? sellerCategories.map((cat) => {
-                              return {
-                                name: cat.name,
-                                _id: cat._id,
-                              };
-                            })
-                          : []
-                      } // Options to display in the dropdown
-                      selectedValues={
-                        formik.values.Category ? formik.values.Category : []
-                      }
-                      placeholder="Select Category"
-                      // Preselected value to persist in dropdown
-                      onSelect={(selectedList, selectedItem) => {
-                        formik.values.Category = selectedList;
-                      }} // Function will trigger on select event
-                      onRemove={(selectedList, selectedItem) => {
-                        formik.values.Category = selectedList;
-                      }} // Function will trigger on remove event
-                      displayValue="name" // Property name to display in the dropdown options
-                    />{' '}
-                    {formik.errors.Category ? (
-                      <div className="error">* {formik.errors.Category}</div>
-                    ) : null}
-                  </div>
                 </div>
                 <div className="mb-6">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    Description
-                  </label>
-                  <textarea
-                    id="Description"
-                    name="Description"
-                    value={formik.values.Description}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    rows={6}
-                    placeholder="Type the product's description"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  ></textarea>
-                  {formik.errors.Description && formik.touched.Description ? (
-                    <div className="error">* {formik.errors.Description}</div>
-                  ) : null}
+                  <div className="flex items-center justify-start gap-1">
+                    <label className="block text-black dark:text-white">
+                      Select Limit:
+                    </label>
+
+                    <div className="relative z-20 bg-white dark:bg-form-input">
+                      <select
+                        id="gender"
+                        name="gender"
+                        // @ts-ignore
+                        value={formik.values.gender}
+                        onChange={(e: any) => {
+                          formik.setFieldValue('gender', e.target.value);
+                          const genderString = formik.values.gender
+                            ? 'male'
+                            : 'female';
+
+                          console.log(`gender: ${genderString}`);
+                        }}
+                        onBlur={formik.handleBlur}
+                        className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent p-2 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input"
+                      >
+                        <option key={'female'} value={false}>
+                          Kadın
+                        </option>
+                        <option key={'male'} value={true}>
+                          Erkek
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
                 <div className="mb-6">
                   <label className="mb-2.5 block text-black dark:text-white">
@@ -279,7 +241,7 @@ const NewAddProduct = () => {
                   </label>
                   <div
                     id="FileUpload"
-                    className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+                    className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray px-4 py-4 dark:bg-meta-4 sm:py-7.5"
                   >
                     <input
                       id="Image"
@@ -360,7 +322,7 @@ const NewAddProduct = () => {
                                 handleInputListChangeInputs(e, i);
                               }}
                               placeholder="Enter your first name"
-                              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                              className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             />
                             {formik.errors.Name && formik.touched.Name ? (
                               <div className="error">
@@ -382,7 +344,7 @@ const NewAddProduct = () => {
                               onChange={(e) => {
                                 handleInputListChangeInputs(e, i);
                               }}
-                              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                              className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             />
                             {formik.errors.Name && formik.touched.Name ? (
                               <div className="error">
@@ -402,7 +364,7 @@ const NewAddProduct = () => {
                                 handleInputListChangeInputs(e, i);
                               }}
                               placeholder="Enter your first name"
-                              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                              className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             />
                             {formik.errors.Name && formik.touched.Name ? (
                               <div className="error">
@@ -430,7 +392,7 @@ const NewAddProduct = () => {
                                     Variation Name
                                   </label>
                                   <select
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     onChange={(e: any) => {
                                       // console.log(JSON.parse(e.target.value));
                                       handleOptionChange({
@@ -469,7 +431,7 @@ const NewAddProduct = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                   />
                                 </div>
                               </div>
@@ -487,21 +449,16 @@ const NewAddProduct = () => {
                       </div>
                     );
                   })}
-                  <button
-                    className="flex min-w-42.5 items-center justify-center rounded-lg border border-stroke bg-gray p-2 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50"
-                    onClick={handleaddclick}
-                  >
-                    Opsiyon Grubu Ekle
-                  </button>
                 </div>
-                {formik.errors.Promotions ? (
-                  <div className="error">* {formik.errors.Promotions}</div>
-                ) : null}
                 <button
                   type="submit"
                   className="my-3 flex w-full justify-center rounded bg-primary p-3 font-medium text-gray"
                 >
-                  Add Product
+                  {isLoading ? (
+                    <span>Yükleniyor...</span>
+                  ) : (
+                    <span>Add Product</span>
+                  )}
                 </button>
               </div>
             </form>
@@ -513,43 +470,3 @@ const NewAddProduct = () => {
 };
 
 export default NewAddProduct;
-/*       <Multiselect
-                              key={i}
-                              // id="Promotions"
-                              // name="Promotions"
-                              className="flex-1 dark:bg-form-input"
-                              options={
-                                Array.isArray(promotions) &&
-                                promotions.length >= 1
-                                  ? promotions.map((promotion) => {
-                                      return {
-                                        name: promotion.variation.name,
-                                        _id: promotion._id,
-                                      };
-                                    })
-                                  : []
-                              } // Options to display in the dropdown
-                              selectedValues={
-                                formik.values.Promotions
-                                  ? formik.values.Promotions
-                                  : []
-                              }
-                              placeholder="Select Promotion"
-                              // Preselected value to persist in dropdown
-                              onSelect={(selectedList, selectedItem) => {
-                                formik.setFieldValue('');
-                                handleinputchange(
-                                  {
-                                    name: selectedItem.name,
-                                    value: selectedList,
-                                  },
-                                  i
-                                );
-                                // formik.values.Promotions = selectedList;
-                              }}
-                              // Function will trigger on select event
-                              onRemove={(selectedList, selectedItem) => {
-                                formik.values.Promotions = selectedList;
-                              }} // Function will trigger on remove event
-                              displayValue="name" // Property name to display in the dropdown options
-                            /> */

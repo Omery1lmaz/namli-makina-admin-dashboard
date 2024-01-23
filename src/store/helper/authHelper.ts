@@ -35,6 +35,19 @@ const login = async (user: any) => {
   return response.data;
 };
 
+const createOfficer = async ({ formData }: any) => {
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
+
+  const response = await axios.post(
+    'https://vml.onrender.com/api/officer',
+    formData
+  );
+  console.log('response data ', response.data);
+  return response.data;
+};
+
 const sellerWorkingStatus = async (isWorking: any) => {
   const response = await axiosInstance.post(
     'http://localhost:4000/api/admin/is-working',
@@ -173,6 +186,7 @@ const GetSellers = async () => {
 };
 
 const authService = {
+  createOfficer,
   login,
   sellerWorkingStatus,
   GetUserDetails,

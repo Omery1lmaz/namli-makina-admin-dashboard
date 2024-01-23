@@ -306,6 +306,34 @@ const getCatsHelper = async () => {
   );
   return response.data;
 };
+const getUsersHelper = async () => {
+  const response = await axiosInstance.get(
+    `https://vml.onrender.com/api/auth/`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+const getOfficerHelper = async () => {
+  const response = await axiosInstance.get(
+    `https://vml.onrender.com/api/officer/`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+const deleteOfficerHelper = async (id: string) => {
+  const response = await axiosInstance.delete(
+    `https://vml.onrender.com/api/officer/` + id,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 const deleteProductById = async ({ id, user }: any) => {
   const response = await axiosInstance.delete(
     `http://localhost:4000/api/products/${id}`,
@@ -316,6 +344,9 @@ const deleteProductById = async ({ id, user }: any) => {
 };
 
 const productService = {
+  getUsersHelper,
+  getOfficerHelper,
+  deleteOfficerHelper,
   getCatsHelper,
   getCategoriesHelper,
   addCategoriesHelper,

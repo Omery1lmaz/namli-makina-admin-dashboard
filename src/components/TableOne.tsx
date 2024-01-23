@@ -6,19 +6,18 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 const DashboardProductsTable = () => {
   // @ts-expect-error
-  const { adminDashBoard, isLoadingP } = useSelector((state) => state.product);
+  const { users, isLoadingP } = useSelector((state) => state.product);
   const [newProducts, setNewProducts] = useState<[]>();
   const navigate = useNavigate();
   useEffect(() => {
-    adminDashBoard?.products &&
-      setNewProducts(adminDashBoard.products?.slice(0, 2));
-  }, [adminDashBoard?.products]);
+    users && setNewProducts(users?.slice(0, 2));
+  }, [users]);
 
   return (
-    <div className="min-h-[280px] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="min-h-[280px] rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex w-full cursor-pointer items-center justify-between">
         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-          Products
+          Scorees
         </h4>
         <div
           className="mr-2 flex min-w-[100px] items-center	justify-end gap-1 hover:translate-x-0.5	"
@@ -30,49 +29,43 @@ const DashboardProductsTable = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-3">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Product Name
+              User Name
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">Qty</h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Cost
+              Score
             </h5>
           </div>
         </div>
         {!newProducts && (
           <div className="flex h-[150px] items-center justify-center xl:p-5">
-            <CircularProgress color="info" size="sm" variant="plain" />
+            <CircularProgress color="#fff" size="sm" variant="plain" />
           </div>
         )}
-        {adminDashBoard?.products?.length === 0 && !isLoadingP && (
+        {users.length === 0 && !isLoadingP && (
           <div className="flex h-[150px] items-center justify-center xl:p-5">
-            <h3 className="text-lg font-semibold">No Product</h3>
+            <h3 className="text-lg font-semibold">No User</h3>
           </div>
         )}
         {newProducts?.map((product: any, index: number) => {
+          console.log(product);
           return (
             <div
               key={index}
-              className="grid grid-cols-3 border-b border-stroke pb-3 dark:border-strokedark sm:grid-cols-3"
+              className="grid grid-cols-2 border-b border-stroke pb-3 dark:border-strokedark sm:grid-cols-3"
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                <p className="hidden text-black dark:text-white sm:block">
+                <p className="text-black dark:text-white sm:block">
                   {product.name}
                 </p>
               </div>
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{product.qty}</p>
-              </div>
-
-              <div className="flex items-center justify-center  p-2.5 xl:p-5">
-                <p className="text-meta-3"> {product.cost} TL</p>
+                <p className="text-black dark:text-white">{product.scoree}</p>
               </div>
             </div>
           );
@@ -83,19 +76,22 @@ const DashboardProductsTable = () => {
 };
 const DashboardCategoriesTable = () => {
   // @ts-expect-error
-  const { adminDashBoard, isLoadingP } = useSelector((state) => state.product);
+  const { officers, isLoadingP } = useSelector((state) => state.product);
   const [newCategories, setNewCategories] = useState<[]>();
   useEffect(() => {
-    adminDashBoard?.categories &&
-      setNewCategories(adminDashBoard.categories?.slice(0, 2));
-  }, [adminDashBoard?.categories]);
+    officers && setNewCategories(officers?.slice(0, 2));
+  }, [officers]);
+  useEffect(() => {
+    console.log(newCategories, 'new categories');
+  }, [newCategories]);
+
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[280px] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="min-h-[280px] rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex w-full cursor-pointer items-center justify-between">
         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-          Categories
+          Officers
         </h4>
         <div
           className="mr-2 flex min-w-[100px] items-center	justify-end gap-1 hover:translate-x-0.5	"
@@ -107,18 +103,15 @@ const DashboardCategoriesTable = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-3">
           <div className=" p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Category Name
+              Name
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">Qty</h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Cost
+              Gender
             </h5>
           </div>
         </div>
@@ -127,9 +120,9 @@ const DashboardCategoriesTable = () => {
             <CircularProgress color="info" size="sm" variant="plain" />
           </div>
         )}
-        {adminDashBoard?.categories?.length === 0 && !isLoadingP && (
+        {officers?.length === 0 && !isLoadingP && (
           <div className="flex h-[150px] items-center justify-center xl:p-5">
-            <h3 className="text-lg font-semibold">No Category</h3>
+            <h3 className="text-lg font-semibold">No Officer</h3>
           </div>
         )}
 
@@ -137,20 +130,18 @@ const DashboardCategoriesTable = () => {
           return (
             <div
               key={index}
-              className="grid grid-cols-3 border-b border-stroke pb-3 dark:border-strokedark sm:grid-cols-3"
+              className="grid grid-cols-2 border-b border-stroke pb-3 dark:border-strokedark sm:grid-cols-3"
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-5">
-                <p className="hidden text-black dark:text-white sm:block">
+                <p className=" text-black dark:text-white sm:block">
                   {category.name}
                 </p>
               </div>
-
-              <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-black dark:text-white">{category.qty}</p>
-              </div>
-
               <div className="flex items-center justify-center  p-2.5 xl:p-5">
-                <p className="text-meta-3"> {category.cost} TL</p>
+                <p className="text-meta-3">
+                  {' '}
+                  {category.gender ? <span>Kadın</span> : <span>Erkek</span>}
+                </p>
               </div>
             </div>
           );
@@ -172,7 +163,7 @@ const DashboardWaitersTable = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[280px] rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="min-h-[280px] rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="flex w-full cursor-pointer items-center justify-between">
         <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
           Waiters

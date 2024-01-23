@@ -17,7 +17,6 @@ export const getWaiter = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
     }
   }
 );
@@ -30,7 +29,6 @@ export const getWaiters = createAsyncThunk('/getWaiters', async (thunkAPI) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    errorNotification(error.response.data);
   }
 });
 
@@ -47,7 +45,6 @@ export const getWaitersBySellerId = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
     }
   }
 );
@@ -68,7 +65,6 @@ export const addWaiter = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
     }
   }
 );
@@ -88,7 +84,7 @@ export const updateWaiter = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
+
       console.log(error);
     }
   }
@@ -108,7 +104,7 @@ export const deleteWaiter = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      errorNotification(error.response.data);
+
       console.log(error);
     }
   }
